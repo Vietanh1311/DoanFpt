@@ -1,6 +1,8 @@
 $(function () {
   changeUi();
+  render();
   sizeGuideRender();
+  activeSize();
   buyNowRender();
 });
 
@@ -84,27 +86,6 @@ $(document).on('click', function (e) {
 
     $('.buy-btn').addClass('green-btn');
     $('.buy-btn').removeClass('trans-btn');
-  }
-
-  // Shipping info change
-})
-
-$('#visa-master').on('change', function() {
-  $('.add-new-payment-methods').css('display', 'none')
-  if (this.checked && $('.card-place').html() == "") {
-    $('#paymentMethods').modal('show');
-  } else {
-    $('.add-new-payment-methods').css('display', 'block')
-    $('.visa-master-wrapper').addClass('added');
-    $('.card-place').show();
-  }
-})
-
-$('#cod').on('change', function () {
-  $('.add-new-payment-methods').css('display', 'none')
-  if (this.checked) {
-    $('.visa-master-wrapper').removeClass('added');
-    $('.card-place').hide()
   }
 })
 

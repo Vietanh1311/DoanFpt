@@ -4,8 +4,15 @@ import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.*;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -13,6 +20,10 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity(name = "users")
+@TypeDef(
+        name = "json",
+        typeClass = JsonStringType.class
+)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -43,5 +54,9 @@ public class User {
 
     @Column(name = "created_at")
     private Timestamp createdAt;
+
+    public User(long id) {
+        this.id = id;
+    }
 }
 

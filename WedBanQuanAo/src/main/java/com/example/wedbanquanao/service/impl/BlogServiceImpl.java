@@ -1,7 +1,6 @@
 package com.example.wedbanquanao.service.impl;
 
 
-import com.example.wedbanquanao.config.enums.PostStatus;
 import com.example.wedbanquanao.entity.Post;
 import com.example.wedbanquanao.exception.NotFoundException;
 import com.example.wedbanquanao.repository.PostRepository;
@@ -16,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.example.wedbanquanao.config.Constant.LIMIT_POST_PER_PAGE;
+import static com.example.wedbanquanao.config.Constant.PUBLIC_POST;
 
 
 @Component
@@ -25,11 +25,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Page<Post> getListPost(int page) {
-        page--;
-        if (page < 0) {
-            page = 0;
-        }
-        Page<Post> posts = postRepository.findAllByStatus(PostStatus.PUBLIC_POST.getStatus(), PageRequest.of(page, LIMIT_POST_PER_PAGE, Sort.by("publishedAt").descending()));
+        Page<Post> posts = postRepository.findAllByStatus(PUBLIC_POST, PageRequest.of(page, LIMIT_POST_PER_PAGE, Sort.by("publishedAt").descending().and(Sort.by("id").descending())));
         return posts;
     }
 
@@ -45,6 +41,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public List<Post> getLatestPostsNotId(long id) {
-        return postRepository.getLatestPostsNotId(PostStatus.PUBLIC_POST.getStatus(), id, LIMIT_POST_PER_PAGE);
+        List<Post> posts = postRepository.getLatestPostsNotId(PUBLIC_POST, id, 8);
+        return posts;
     }
 }
