@@ -30,138 +30,26 @@
                     </div>
                 </div>
                 <div class="row product-row d-flex justify-content-md-between">
-                    <a href="/san-pham/abc/123" class="product-link" id ="1">
-                        <div class="product position-relative">
-                            <div class="card"><img class="card-img-top" th:src="@{/image/product/jean/jean1.png}" alt="adidas-Yeezy-Boost-350-V2-Lundmark"/>
+                    <th:block th:each="product : ${bestSellerProducts}">
+                        <a class="product position-relative" th:href="@{/san-pham/{slug}/{id}(id=${product.id}, slug=${product.slug})}">
+                            <div class="card"><img class="card-img-top"
+                                                   th:src="${product.image}"
+                                                   th:alt="${product.name}"/>
                                 <div class="card-body">
-                                    <h5 class="card-title">Quần dài xanh</h5>
-                                    <p class="price">720.000 &#x20AB;</p>
-                                    <p class="card-text sold">&Dstrok;&atilde; b&aacute;n 1963 chiếc</p>
+                                    <h5 class="card-title" th:text="${product.name}"></h5>
+                                    <th:block th:if="${product.promotionPrice}">
+                                        <p class="price"><span class="text-price" th:text="${product.promotionPrice}"></span> &#x20AB;</p>
+                                        <p class="old-price"><span class="text-price" th:text="${product.price}"></span> &#x20AB;</p>
+                                    </th:block>
+                                    <th:block th:unless="${product.promotionPrice}">
+                                        <p class="price"><span class="text-price" th:text="${product.price}"></span> &#x20AB;</p>
+                                    </th:block>
+                                    <p class="card-text sold">&Dstrok;&atilde; b&aacute;n <span th:text="${product.totalSold}"></span> &dstrok;&ocirc;i</p>
                                 </div>
                             </div>
                             <div class="shadow mx-auto position-absolute"></div>
-                        </div>
-                    </a>
-                    <a href="/san-pham/abc/123" class="product-link" id ="2">
-                        <div class="product position-relative">
-                            <div class="card"><img class="card-img-top" th:src="@{/image/product/jean/jean2.png}" alt="adidas-Yeezy-Boost-350-V2-Lundmark"/>
-                                <div class="card-body">
-                                    <h5 class="card-title">Quần dài đen</h5>
-                                    <p class="price">480.000 &#x20AB;</p>
-                                    <p class="card-text sold">&Dstrok;&atilde; b&aacute;n 1312 chiếc</p>
-                                </div>
-                            </div>
-                            <div class="shadow mx-auto position-absolute"></div>
-                        </div>
-                    </a>
-                    <a href="/san-pham/abc/123" class="product-link" id ="3">
-                        <div class="product position-relative">
-                            <div class="card"><img class="card-img-top" th:src="@{/image/product/jean/jean3.png}" alt="adidas-Yeezy-Boost-350-V2-Lundmark"/>
-                                <div class="card-body">
-                                    <h5 class="card-title">Quần dài xanh dương</h5>
-                                    <p class="price">290.000 &#x20AB;</p>
-                                    <p class="card-text sold">&Dstrok;&atilde; b&aacute;n 2246 chiếc</p>
-                                </div>
-                            </div>
-                            <div class="shadow mx-auto position-absolute"></div>
-                        </div>
-                    </a>
-                    <a href="/san-pham/abc/123" class="product-link" id ="4">
-                        <div class="product position-relative">
-                            <div class="card"><img class="card-img-top" th:src="@{/image/product/long/long1.png}" alt="adidas-Yeezy-Boost-350-V2-Lundmark"/>
-                                <div class="card-body">
-                                    <h5 class="card-title">Quần vải đen</h5>
-                                    <p class="price">370.000 &#x20AB;</p>
-                                    <p class="card-text sold">&Dstrok;&atilde; b&aacute;n 564 chiếc</p>
-                                </div>
-                            </div>
-                            <div class="shadow mx-auto position-absolute"></div>
-                        </div>
-                    </a>
-                    <a href="/san-pham/abc/123" class="product-link" id ="5">
-                        <div class="product position-relative">
-                            <div class="card"><img class="card-img-top" th:src="@{/image/product/long/long2.png}" alt="adidas-Yeezy-Boost-350-V2-Lundmark"/>
-                                <div class="card-body">
-                                    <h5 class="card-title">Quần vải xám</h5>
-                                    <p class="price">620.000 &#x20AB;</p>
-                                    <p class="card-text sold">&Dstrok;&atilde; b&aacute;n 1456 chiếc</p>
-                                </div>
-                            </div>
-                            <div class="shadow mx-auto position-absolute"></div>
-                        </div>
-                    </a>
-                </div>
-            </section>
-            <!-- Break Banner-->
-<!--            <section class="break-banner"><a href="/san-pham"><img class="img-fluid" id="promo-banner-1" th:src="@{/image/banner/promo-banner-1-lg.png}" alt="promo-banner-1"/></a></section>-->
-<!--            &lt;!&ndash; Best seller &ndash;&gt;-->
-            <section class="products-showcase best-seller container">
-                <div class="row">
-                    <div class="title col-12">
-                        <h2 class="h2">Sản phẩm bán chạy</h2><a class="see-more-btn-text text-uppercase" href="/san-pham">Xem Th&ecirc;m</a>
-                    </div>
-                </div>
-                <div class="row product-row d-flex justify-content-md-between">
-                    <a href="/san-pham/abc/123" class="product-link" id ="1">
-                        <div class="product position-relative">
-                            <div class="card"><img class="card-img-top" th:src="@{/image/product/jean/jean1.png}" alt="adidas-Yeezy-Boost-350-V2-Lundmark"/>
-                                <div class="card-body">
-                                    <h5 class="card-title">Quần dài xanh</h5>
-                                    <p class="price">720.000 &#x20AB;</p>
-                                    <p class="card-text sold">&Dstrok;&atilde; b&aacute;n 1963 chiếc</p>
-                                </div>
-                            </div>
-                            <div class="shadow mx-auto position-absolute"></div>
-                        </div>
-                    </a>
-                    <a href="/san-pham/abc/123" class="product-link" id ="2">
-                        <div class="product position-relative">
-                            <div class="card"><img class="card-img-top" th:src="@{/image/product/jean/jean2.png}" alt="adidas-Yeezy-Boost-350-V2-Lundmark"/>
-                                <div class="card-body">
-                                    <h5 class="card-title">Quần dài đen</h5>
-                                    <p class="price">480.000 &#x20AB;</p>
-                                    <p class="card-text sold">&Dstrok;&atilde; b&aacute;n 1312 chiếc</p>
-                                </div>
-                            </div>
-                            <div class="shadow mx-auto position-absolute"></div>
-                        </div>
-                    </a>
-                    <a href="/san-pham/abc/123" class="product-link" id ="3">
-                        <div class="product position-relative">
-                            <div class="card"><img class="card-img-top" th:src="@{/image/product/short/short1.png}" alt="adidas-Yeezy-Boost-350-V2-Lundmark"/>
-                                <div class="card-body">
-                                    <h5 class="card-title">Quần short xanh đen</h5>
-                                    <p class="price">270.000 &#x20AB;</p>
-                                    <p class="card-text sold">&Dstrok;&atilde; b&aacute;n 2246 chiếc</p>
-                                </div>
-                            </div>
-                            <div class="shadow mx-auto position-absolute"></div>
-                        </div>
-                    </a>
-                    <a href="/san-pham/abc/123" class="product-link" id ="4">
-                        <div class="product position-relative">
-                            <div class="card"><img class="card-img-top" th:src="@{/image/product/short/short2.png}" alt="adidas-Yeezy-Boost-350-V2-Lundmark"/>
-                                <div class="card-body">
-                                    <h5 class="card-title">Quần short xanh</h5>
-                                    <p class="price">260.000 &#x20AB;</p>
-                                    <p class="card-text sold">&Dstrok;&atilde; b&aacute;n 564 chiếc</p>
-                                </div>
-                            </div>
-                            <div class="shadow mx-auto position-absolute"></div>
-                        </div>
-                    </a>
-                    <a href="/san-pham/abc/123" class="product-link" id ="5">
-                        <div class="product position-relative">
-                            <div class="card"><img class="card-img-top" th:src="@{/image/product/short/short3.png}" alt="adidas-Yeezy-Boost-350-V2-Lundmark"/>
-                                <div class="card-body">
-                                    <h5 class="card-title">Quần short xám</h5>
-                                    <p class="price">220.000 &#x20AB;</p>
-                                    <p class="card-text sold">&Dstrok;&atilde; b&aacute;n 1456 chiếc</p>
-                                </div>
-                            </div>
-                            <div class="shadow mx-auto position-absolute"></div>
-                        </div>
-                    </a>
+                        </a>
+                    </th:block>
                 </div>
             </section>
             <!-- Break Banner-->

@@ -1,5 +1,7 @@
 package com.example.wedbanquanao.entity;
 
+import com.example.wedbanquanao.model.dto.ProductInfoDto;
+import com.example.wedbanquanao.model.dto.ShortProductInfoDto;
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.*;
 import org.hibernate.annotations.Type;
@@ -8,7 +10,72 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
+@SqlResultSetMappings(
+        value = {
+                @SqlResultSetMapping(
+                        name = "productInfoDto",
+                        classes = @ConstructorResult(
+                                targetClass = ProductInfoDto.class,
+                                columns = {
+                                        @ColumnResult(name = "id", type = String.class),
+                                        @ColumnResult(name = "name", type = String.class),
+                                        @ColumnResult(name = "slug", type = String.class),
+                                        @ColumnResult(name = "price", type = Long.class),
+                                        @ColumnResult(name = "total_sold", type = Integer.class),
+                                        @ColumnResult(name = "image", type = String.class)
+                                }
+                        )
+                ),
+                @SqlResultSetMapping(
+                        name = "shortProductInfoDto",
+                        classes = @ConstructorResult(
+                                targetClass = ShortProductInfoDto.class,
+                                columns = {
+                                        @ColumnResult(name = "id", type = String.class),
+                                        @ColumnResult(name = "name", type = String.class)
+                                }
+                        )
+                ),
+                @SqlResultSetMapping(
+                        name = "productInfoAndAvailableSize",
+                        classes = @ConstructorResult(
+                                targetClass = ShortProductInfoDto.class,
+                                columns = {
+                                        @ColumnResult(name = "id", type = String.class),
+                                        @ColumnResult(name = "name", type = String.class),
+                                        @ColumnResult(name = "price", type = Long.class),
+                                        @ColumnResult(name = "sizes", type = String.class)
+                                }
+                        )
+                )
+        }
+)
+@NamedNativeQuery(
+        name = "getListBestSellerProduct",
+        resultSetMapping = "productInfoDto",
+        query = "SELECT pro.id, pro.name, pro.slug, pro.price, pro.total_sold, pro.product_images ->> \"$[0]\" as image \n" +
+                "FROM product pro\n" +
+                "WHERE pro.is_available = true\n" +
+                "ORDER BY total_sold desc\n" +
+                "LIMIT ?1 \n"
+)
+@NamedNativeQuery(
+        name = "getRelatedProducts",
+        resultSetMapping = "productInfoDto",
+        query = "SELECT pro.id, pro.name, pro.slug, pro.price, pro.total_sold, pro.product_images ->> \"$[0]\" as image \n" +
+                "FROM product pro\n" +
+                "WHERE pro.is_available = true AND\n" +
+                "pro.id != ?1\n" +
+                "ORDER BY RAND()\n" +
+                "LIMIT ?2\n"
+)
+@NamedNativeQuery(
+        name = "getAvailableProducts",
+        resultSetMapping = "productInfoAndAvailableSize",
+        query = "SELECT pro.id, pro.name, pro.price,\n" +
+                "(SELECT JSON_ARRAYAGG(ps.size) FROM product_size ps WHERE ps.product_id = pro.id AND ps.quantity > 0) as sizes \n" +
+                "FROM product pro\n"
+)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
