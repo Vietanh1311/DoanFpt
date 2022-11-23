@@ -4,16 +4,11 @@ import com.company.demo.entity.*;
 import com.company.demo.exception.*;
 import com.company.demo.model.dto.*;
 import com.company.demo.model.mapper.*;
-import com.company.demo.model.request.CreateProductReq;
 import com.company.demo.repository.*;
 import com.company.demo.service.*;
-import com.company.demo.util.PageUtil;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
-import static com.company.demo.config.Constant.*;
-import java.sql.Timestamp;
+
 import java.util.*;
 
 @Component
@@ -34,7 +29,6 @@ public class ProductServiceImpl implements ProductService {
 
         return promotionService.checkPublicPromotion(products);
     }
-
 
 
     @Override
@@ -84,16 +78,27 @@ public class ProductServiceImpl implements ProductService {
         return sizes;
     }
 
+    @Override
+    public Product updateQuantity(String productId, int quantity) {
+        Optional<Product> findByIdProduct = productRepository.findById(productId);
+        if (findByIdProduct.isPresent()) {
+            Product product = findByIdProduct.get();
+            product.setQuantity(quantity);
+            return productRepository.save(product);
+        }
+        return findByIdProduct
+                .orElseThrow(() -> new NotFoundException("Product id not found: " + productId));
+    }
 
-//    @Override
-//    public Product getProductById(String id) {
-//        Optional<Product> product = productRepository.findById(id);
-//        if (product.isEmpty()) {
-//            throw new NotFoundException("Sản phẩm không tồn tại");
-//        }
-//
-//        return product.get();
-//    }
+
+    @Override
+    public Product getProductById(String id) {
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isPresent()) {
+            return product.get();
+        }
+        throw new NotFoundException("Sản phẩm không tồn tại");
+    }
 
 
 }

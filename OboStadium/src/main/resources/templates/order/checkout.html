@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/layout/layout :: main-fragment(
+                                                ~{:: title},
+                                                'short-header',
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Out</title>
+    <th:block id="css-resources">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/components/header.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/components/products.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/components/index/product-showcase.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/components/product-details/product-info.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/components/product-details/size-choose.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/components/product-details/size-guide-table.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/except-home-page.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/product-details.css}"/>
+    </th:block>
+</head>
+
+<body>
+<main id="main-content">
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="section-header text-start mb-5 wow fadeInUp" data-wow-delay="0.1s"
+                             style="max-width: 500px;">
+                            <h1 class="display-5 mb-3">Check Out</h1>
+                            <p>Tempor ut dolore lorem kasd vero ipsum sit eirmod sit. Ipsum diam justo sed rebum
+                                vero
+                                dolor duo.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-6 mx-0">
+                    <h2 class="text-primary">Thông Tin Giỏ Hàng</h2>
+                    <div>
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item : ${listCart}">
+                                <td th:text="${item.id}"></td>
+                                <th>
+                                    <!-- <img th:attr="ng-src=@{'/assets/images/' + ${p.image}}" class="img-fluid w-100"> -->
+                                    <!-- <img class="img-fluid" width="70" src="/assets/img/{{cart.data.image}}" alt=""> -->
+                                    <!--                        <img class="img-fluid" width="70" th:attr="ng-src=@{'/assets/images/{{item.image}}'}" alt="">-->
+                                </th>
+                                <td th:text="${item.name}"></td>
+                                <td>
+                                    <input type="number" name="quantity" id="quantity" th:value="${item.quantity}"
+                                           min="1" readonly>
+                                </td>
+                                <td th:text="${item.price}"></td>
+                                <td th:text="${item.total}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <h2 class="text-primary">Thông Tin Đặt Hàng</h2>
+
+                    <div class="card">
+                        <div class="card-body">
+                        <form th:action="@{/order/checkout}" th:object="${order}" method="post">
+
+                            <!-- Adress Section-->
+                            <div class="address-info-wrapper childs">
+                                <div class="coupon price-include">
+                                    <div class="text required-label">Tai khoan</div>
+                                    <div>
+                                        <input class="form-control" type="text" th:value="${#request.remoteUser}"
+                                               id="in-user-username" readonly/>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                </div>
+                                <div class="coupon price-include">
+                                    <div class="text required-label">Người nhận hàng</div>
+                                    <div>
+                                        <input class="form-control" placeholder="Nhập tên người nhận" type="text"
+                                               th:field="*{fullname}" id="in-user-fullname"/>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                </div>
+                                <div class="coupon price-include">
+                                    <div class="text required-label">Điện thoại</div>
+                                    <div>
+                                        <input class="form-control" placeholder="Nhập số điện thoại" type="text"
+                                               th:field="*{phone}" id="in-user-phone"/>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                </div>
+                                <div class="coupon price-include">
+                                    <div class="text required-label">Địa chỉ</div>
+                                    <div>
+                                        <textarea class="form-control" placeholder="Nhập địa chỉ" rows="2"
+                                                  th:field="*{address}" id="in-user-address"></textarea>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                </div>
+                                <div class="coupon price-include">
+                                    <div class="text required-label">Mo ta</div>
+                                    <div>
+                                        <textarea class="form-control" placeholder="Nhập mô tả" rows="2"
+                                                  th:field="*{description}" id="in-user-description"></textarea>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                </div>
+                                <div class="coupon price-include">
+                                    <div class="text required-label">Hình Thức Thanh Toán</div>
+                                    <div class="form-check" th:each="payment : ${listPayment}">
+                                        <input class="form-check-input" type="radio"
+                                               name="exampleRadios" th:field="*{paymentId}" th:value="${payment.id}"
+                                               checked>
+                                        <label class="form-check-label"
+                                               th:text="${payment.name}"></label>
+                                    </div>
+
+                                    <div th:each="pay : ${listPayment}">
+                                        <div th:text="${pay.description}"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="input-group" style="margin-top:30px">
+                                <input type="text" class="form-control" placeholder="Nhập mã khuyến mãi" id="in-coupon">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" id="btn-apply-coupon">Áp
+                                        dụng khuyến mãi
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Pricing Section-->
+                            <div class="pricing childs">
+                                <div class="coupon price-include">
+                                    <div class="text">Giá sản phẩm</div>
+                                    <input class="form-control text-price-input" id="in-price" type="text" readonly/>
+                                </div>
+                                <div class="coupon price-include">
+                                    <div class="text">Khuyến mãi</div>
+                                    <input class="form-control text-price-input" id="in-promotion-value" type="text"
+                                           readonly/>
+                                </div>
+                                <div class="coupon price-include">
+                                    <div class="text">Tổng thanh toán</div>
+                                    <input class="form-control text-price-input" th:value="${sumPrice}" id="in-total-price" type="text"
+                                           readonly/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col text-center mt-3">
+                                    <button class="btn btn-success">
+                                        Đặt hàng
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+</main>
+</body>
+
+</html>
