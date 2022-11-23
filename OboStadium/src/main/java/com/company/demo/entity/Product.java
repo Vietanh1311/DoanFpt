@@ -163,6 +163,9 @@ public class Product {
     @Column(name = "slug", nullable = false)
     private String slug;
 
+    @Column(name = "quantity")
+    private int quantity;
+
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 

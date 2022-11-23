@@ -21,4 +21,7 @@ public interface ProductService {
 
     public List<Integer> getListAvailableSize(String id);
 
+    Product updateQuantity(String productId, int quantity);
+
+    Product getProductById(String id);
 }

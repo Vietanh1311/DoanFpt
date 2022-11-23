@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/layout/layout :: main-fragment(
+                                                ~{:: title},
+                                                'short-header',
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Order List</title>
+  <th:block id="css-resources">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/components/header.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/components/products.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/components/index/product-showcase.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/components/product-details/product-info.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/components/product-details/size-choose.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/components/product-details/size-guide-table.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/except-home-page.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/product-details.css}"/>
+  </th:block>
+</head>
+
+<body>
+<main id="main-content">
+  <div class="container-xxl py-5">
+    <div class="container">
+      <div class="row g-0 gx-5 align-items-end">
+        <div class="col-lg-6">
+          <div class="section-header text-start mb-5 wow fadeInUp" data-wow-delay="0.1s"
+               style="max-width: 500px;">
+            <h1 class="display-5 mb-3">Đơn đặt hàng của bạn đã mua</h1>
+            <p>Tempor ut dolore lorem kasd vero ipsum sit eirmod sit. Ipsum diam justo sed rebum vero
+              dolor duo.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th></th>
+          <th>Shipping</th>
+          <th>Phone</th>
+          <th>Discount</th>
+          <th>Order date</th>
+          <th>Address</th>
+          <th>Payment</th>
+          <th>Grand Total</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order,state : ${listOrder}">
+          <td>[[${state.index + 1}]]</td>
+          <td>[[${order.shipping}]]</td>
+          <td>[[${order.phone}]]</td>
+          <td>[[${order.discount}]]</td>
+          <td>[[${order.createDate}]]</td>
+          <td>[[${order.address}]]</td>
+          <td th:text="${order.paymentId == 1 ? 'Nhận hàng mới thanh toán':'Chuyển khoản'}">[[${order.address}]]</td>
+          <td>[[${order.grandTotal}]]</td>
+          <td>
+            <a th:href="@{'/order/detail/' + ${order.id}}" class="btn btn-secondary">
+              Xem Chi Tiết
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div>
+      </div>
+    </div>
+</main>
+</body>
+
+</html>

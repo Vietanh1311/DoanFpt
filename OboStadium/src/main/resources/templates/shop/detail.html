@@ -75,21 +75,34 @@
                             <i class="fas fa-chevron-down dropdown-arrow"></i>
                         </button>
                     </div>
-                    <a th:href="@{/dat-hang/{id}/{size}(id=${product.id}, size=${39})}"/>
+                    <a th:href="@{'/cart/add-cart/' + ${product.id}}">
+
                         <div class="buy-btn">
-                            <button class="btn btn-primary buy red-btn" th:classappend="${canBuy} == true ? '' : 'not-buy'">
+                            <button class="btn btn-primary buy red-btn"
+                                    th:classappend="${canBuy} == true ? '' : 'not-buy'">
                                 <div class="ask-text left-content">
                                     <th:block th:if="${product.promotionPrice}">
-                                        <div class="ask-desc sub-content old-price"><span class="text-price" th:text="${product.price}"></span> &#x20AB;</div>
-                                        <div class="ask-price main-content"><span class="text-price" th:text="${product.promotionPrice}"></span> &#x20AB;</div>
+                                        <div class="ask-desc sub-content old-price"><span class="text-price"
+                                                                                          th:text="${product.price}"></span>
+                                            &#x20AB;
+                                        </div>
+                                        <div class="ask-price main-content"><span class="text-price"
+                                                                                  th:text="${product.promotionPrice}"></span>
+                                            &#x20AB;
+                                        </div>
                                     </th:block>
                                     <th:block th:unless="${product.promotionPrice}">
                                         <div class="ask-desc sub-content">Giá bán ưu đãi</div>
-                                        <div class="ask-price main-content"><span class="text-price" th:text="${product.price}"></span> &#x20AB;</div>
+                                        <div class="ask-price main-content"><span class="text-price"
+                                                                                  th:text="${product.price}"></span>
+                                            &#x20AB;
+                                        </div>
                                     </th:block>
                                 </div>
                                 <div class="buy-text right-content">
-                                    <div class="buy-now main-content">Mua ngay</div>
+                                    <div class="buy-now main-content">
+                                        Add to cart
+                                    </div>
                                 </div>
                             </button>
                         </div>
@@ -131,17 +144,21 @@
         </div>
         <div class="row product-row d-flex justify-content-md-between">
             <th:block th:each="product : ${relatedProducts}">
-                <a class="product product-link position-relative" th:id="${product.id}" target="_blank" th:href="@{/san-pham/{slug}/{id}(id=${product.id}, slug=${product.slug})}">
+                <a class="product product-link position-relative" th:id="${product.id}" target="_blank"
+                   th:href="@{/san-pham/{slug}/{id}(id=${product.id}, slug=${product.slug})}">
                     <div class="card">
                         <img th:src="${product.image}" class="card-img-top" th:alt="${product.name}">
                         <div class="card-body">
                             <h5 class="card-title" th:text="${product.name}"></h5>
                             <th:block th:if="${product.promotionPrice}">
-                                <p class="price"><span class="text-price" th:text="${product.promotionPrice}"></span> &#x20AB;</p>
-                                <p class="old-price"><span class="text-price" th:text="${product.price}"></span> &#x20AB;</p>
+                                <p class="price"><span class="text-price" th:text="${product.promotionPrice}"></span>
+                                    &#x20AB;</p>
+                                <p class="old-price"><span class="text-price" th:text="${product.price}"></span>
+                                    &#x20AB;</p>
                             </th:block>
                             <th:block th:unless="${product.promotionPrice}">
-                                <p class="price"><span class="text-price" th:text="${product.price}"></span> &#x20AB;</p>
+                                <p class="price"><span class="text-price" th:text="${product.price}"></span> &#x20AB;
+                                </p>
                             </th:block>
                             <p class="card-text sold">Đã bán <span th:text="${product.totalSold}"></span> đôi</p>
                         </div>
@@ -169,60 +186,61 @@
         let sizeCm = [[${sizeCm}]];
 
         function render() {
-          for (let i = 0; i < sizeVn.length; i++) {
-            let sizeChoose = `
+            for (let i = 0; i < sizeVn.length; i++) {
+                let sizeChoose = `
             <div class="item" data-size="${sizeUs[i]}US | ${sizeVn[i]}VN | ${sizeCm[i]}CM" data-id="${sizeVn[i]}">
                 ${sizeVn[i]}
             </div>
             `;
 
-            $('.size .select-filter').append(sizeChoose);
-          };
+                $('.size .select-filter').append(sizeChoose);
+            }
+            ;
         };
 
         function sizeGuideRender() {
-          let tr = '';
-          for (let i = 0; i < sizeVn.length; i++) {
-            tr += `
+            let tr = '';
+            for (let i = 0; i < sizeVn.length; i++) {
+                tr += `
             <tr>
               <td>${sizeVn[i]}</td>
               <td>${sizeUs[i]}</td>
               <td>${sizeCm[i]}</td>
             </tr>
             `;
-          }
-          $('.side-guide-table tbody').html(tr);
+            }
+            $('.side-guide-table tbody').html(tr);
         }
 
         function activeSize() {
-          let availableSizes = [[${availableSizes}]]
+            let availableSizes = [[${availableSizes}]]
 
-          for (let i = 0; i < sizeVn.length; i++) {
-            if (sizeVn[i] == availableSizes[0]) {
-              $('.size-details').text(sizeUs[i] + "US | " + sizeVn[i] + "VN | " + sizeCm[i] + "CM")
-              break;
+            for (let i = 0; i < sizeVn.length; i++) {
+                if (sizeVn[i] == availableSizes[0]) {
+                    $('.size-details').text(sizeUs[i] + "US | " + sizeVn[i] + "VN | " + sizeCm[i] + "CM")
+                    break;
+                }
             }
-          }
 
-          $('.size .item').addClass('cross')
-          $(`.item[data-size='${$('.size-details').text()}']`).addClass('size-choose').removeClass('cross');
+            $('.size .item').addClass('cross')
+            $(`.item[data-size='${$('.size-details').text()}']`).addClass('size-choose').removeClass('cross');
 
-          for (let i = 0; i < availableSizes.length; i++) {
-            $(`.item[data-id='${availableSizes[i]}']`).removeClass('cross');
-          }
+            for (let i = 0; i < availableSizes.length; i++) {
+                $(`.item[data-id='${availableSizes[i]}']`).removeClass('cross');
+            }
         }
 
-        $('.buy-now').click(function() {
+        $('.buy-now').click(function () {
             if (isLogined == true) {
                 let size = $('.size-choose').data("id");
                 if (size == null || size == "") {
                     toastr.warning("Sản phẩm tạm hết hàng. Vui lòng đặt hàng sau.");
                 } else {
-                    location.href = "/dat-hang?id="+[[${product.id}]]+"&size="+size;
+                    location.href = "/dat-hang?id=" + [[${product.id}]] + "&size=" + size;
                 }
             } else {
                 toastr.warning("Vui lòng đăng nhập để đặt hàng");
-                setTimeout(function() {
+                setTimeout(function () {
                     $('#signInSignUp').modal('show');
                 }, 500);
             }
