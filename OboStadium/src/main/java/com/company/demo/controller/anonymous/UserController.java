@@ -6,6 +6,7 @@ import com.company.demo.model.mapper.UserMapper;
 import com.company.demo.model.request.ChangePasswordReq;
 import com.company.demo.model.request.CreateUserReq;
 import com.company.demo.model.request.LoginReq;
+import com.company.demo.model.request.UpdateProfileReq;
 import com.company.demo.security.CustomUserDetails;
 import com.company.demo.security.JwtTokenUtil;
 import com.company.demo.service.UserService;
@@ -98,15 +99,15 @@ public class UserController {
         return ResponseEntity.ok("Đổi mật khẩu thành công");
     }
 
-//    @PostMapping("/api/update-profile")
-//    public ResponseEntity<?> updateProfile(@Valid @RequestBody UpdateProfileReq req) {
-//        User user = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-//
-//        user = userService.updateProfile(user, req);
-//        UserDetails principal = new CustomUserDetails(user);
-//        Authentication authentication = new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//        return ResponseEntity.ok("Cập nhật profile thành công");
-//    }
+    @PostMapping("/api/update-profile")
+    public ResponseEntity<?> updateProfile(@Valid @RequestBody UpdateProfileReq req) {
+        User user = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+
+        user = userService.updateProfile(user, req);
+        UserDetails principal = new CustomUserDetails(user);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return ResponseEntity.ok("Cập nhật profile thành công");
+    }
 }
