@@ -14,6 +14,10 @@ import java.util.List;
 public interface ProductService {
     public List<ProductInfoDto> getListBestSellerProduct();
 
+    public List<ProductInfoDto> getListNewProduct();
+
+    public List<ProductInfoDto> getListSuggestProduct();
+
 
     public DetailProductInfoDto getDetailProductById(String id);
 

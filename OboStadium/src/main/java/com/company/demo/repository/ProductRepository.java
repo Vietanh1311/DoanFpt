@@ -14,9 +14,14 @@ public interface ProductRepository extends JpaRepository<Product, String> {
     @Query(nativeQuery = true, name = "getListBestSellerProduct")
     public List<ProductInfoDto> getListBestSellerProduct(int limit);
 
-
     @Query(nativeQuery = true, name = "getRelatedProducts")
     public List<ProductInfoDto> getRelatedProducts(String id, int limit);
+
+    @Query(nativeQuery = true, name = "getListNewProduct")
+    public List<ProductInfoDto> getListNewProduct(int limit);
+
+    @Query(nativeQuery = true, name = "getListSuggestProduct")
+    public List<ProductInfoDto> getListSuggestProduct(List<String> products, int limit);
 
 
 }

@@ -19,9 +19,11 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-
     @Autowired
     private ProductSizeRepository productSizeRepository;
+
+    @Autowired
+    private ConfigurationRepository configurationRepository;
 
     @Override
     public List<ProductInfoDto> getListBestSellerProduct() {
@@ -98,6 +100,27 @@ public class ProductServiceImpl implements ProductService {
             return product.get();
         }
         throw new NotFoundException("Sản phẩm không tồn tại");
+    }
+
+    @Override
+    public List<ProductInfoDto> getListNewProduct() {
+        List<ProductInfoDto> products = productRepository.getListNewProduct(  5);
+
+        return promotionService.checkPublicPromotion(products);
+    }
+
+    @Override
+    public List<ProductInfoDto> getListSuggestProduct() {
+        // Get Obo choices
+        List<Configuration> configs = configurationRepository.findAll();
+        if (configs.size() > 0) {
+            Configuration config = configs.get(0);
+            List<ProductInfoDto> products = productRepository.getListSuggestProduct(config.getOboChoices(), 5);
+
+            return promotionService.checkPublicPromotion(products);
+        }
+
+        return null;
     }
 
 

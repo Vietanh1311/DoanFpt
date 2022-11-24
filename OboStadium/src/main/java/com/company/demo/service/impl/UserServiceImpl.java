@@ -6,6 +6,7 @@ import com.company.demo.exception.DuplicateRecordException;
 import com.company.demo.model.mapper.UserMapper;
 import com.company.demo.model.request.ChangePasswordReq;
 import com.company.demo.model.request.CreateUserReq;
+import com.company.demo.model.request.UpdateProfileReq;
 import com.company.demo.repository.UserRepository;
 import com.company.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,12 +44,12 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-//    @Override
-//    public User updateProfile(User user, UpdateProfileReq req) {
-//        user.setAddress(req.getAddress());
-//        user.setPhone(req.getPhone());
-//        user.setFullName(req.getFullName());
-//
-//        return userRepository.save(user);
-//    }
+    @Override
+    public User updateProfile(User user, UpdateProfileReq req) {
+        user.setAddress(req.getAddress());
+        user.setPhone(req.getPhone());
+        user.setFullName(req.getFullName());
+
+        return userRepository.save(user);
+    }
 }
